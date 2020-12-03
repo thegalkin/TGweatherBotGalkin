@@ -6,12 +6,12 @@ import java.io.FileReader;
 
 public class Users {
 
-    private File usersFile = new File("users.txt");
+    private static File usersFile = new File("users.txt");
 
 
 
 
-    public static void read{
+    public static void read(){
 
         FileReader fileReader = null;
         try {
@@ -20,13 +20,13 @@ public class Users {
             e.printStackTrace();
         }
         int lines = 0;
-        while (fileReader.read() != null){
-
-        }
+//        while (fileReader.read() != null){
+//
+//        }
 
 
     }
-    public static void write{
+    public static void write(){
 
     }
 }

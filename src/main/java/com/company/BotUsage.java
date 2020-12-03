@@ -20,11 +20,11 @@ public class BotUsage extends TelegramLongPollingBot {
             if (message.hasText()){
 
 
-                if (message.getText() == "/start"){
-                    if (message.getChatId() instanceof )
-
-
-                }
+//                if (message.getText() == "/start"){
+//                    if (message.getChatId() instanceof )
+//
+//
+//                }
 
                     SendMessage sendMessageRequest = new SendMessage();
                     sendMessageRequest.setChatId(message.getChatId().toString());
