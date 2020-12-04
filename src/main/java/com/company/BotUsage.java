@@ -15,14 +15,16 @@ public class BotUsage extends TelegramLongPollingBot {
     public void onUpdateReceived(Update update) {
         if(update.hasMessage()){
             Message message = update.getMessage();
-
+            Boolean messageUnderstandable = false;
 
             if (message.hasText()){
 
                 String userID = message.getChatId().toString();
                 String messageText = message.getText();
-                System.out.println("Command: " + messageText);
-                    if (messageText == "/start") {
+
+                System.out.println(messageText);
+                    if (message.getText().equals("/start")) {
+                        messageUnderstandable = true;
                         try {
                             if (Users.isInstance(userID) != null) {
                                 //if user is already in our userBase
@@ -36,27 +38,32 @@ public class BotUsage extends TelegramLongPollingBot {
                         } catch (IOException e) {
                             e.printStackTrace();
                         }
-                    }else if(messageText == "/subscribe") {
-                    try {
-
-                        if (Users.isInstance(userID) != null && Users.isInstance(userID) != "null") {
-                            localCron.subscribe(userID);
-                        }
-
-                    } catch (IOException e) {
-                        e.printStackTrace();
                     }
-                } else  if(messageText == "/unsubscribe") {
+                    if(message.getText().equals("/subscribe")) {
+                            messageUnderstandable = true;
                         try {
 
                             if (Users.isInstance(userID) != null && Users.isInstance(userID) != "null") {
-                                localCron.unsubscribe(userID);
+                                LocalCron.subscribe(userID);
                             }
 
                         } catch (IOException e) {
                             e.printStackTrace();
                         }
-                    } else {
+                    }
+                    if(message.getText().equals("/unsubscribe")) {
+                        messageUnderstandable = true;
+                        try {
+
+                            if (Users.isInstance(userID) != null && Users.isInstance(userID) != "null") {
+                                LocalCron.unsubscribe(userID);
+                            }
+
+                        } catch (IOException e) {
+                            e.printStackTrace();
+                        }
+                    }
+                    if(!messageUnderstandable) {
                         sendMessageHandler(message, "I don't understand you!");
                     }
 

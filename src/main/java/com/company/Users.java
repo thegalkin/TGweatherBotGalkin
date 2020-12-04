@@ -64,7 +64,7 @@ public class Users {
                 String localUserId = line.substring(0, line.indexOf(":")); //may be bugs here
                 String localUserLocation = line.substring(line.indexOf(":") + 1);
                 System.out.println(line);//TODO debug
-                System.out.printf("UserId: %s\nLocation: %s\nWere generated", localUserId, localUserLocation);
+                System.out.printf("UserId: %s\nLocation: %s\nWere generated\n", localUserId, localUserLocation);
                 usersHash.put(localUserId, localUserLocation);
             }
 
@@ -75,16 +75,15 @@ public class Users {
     public static void rewrite(HashMap<String, String> mapToWrite) throws IOException {
         File usersFile = new File(usersFileName);
         usersFile.delete();
+
         Files.createFile(Path.of(usersFileName));
         usersFile = new File(usersFileName);
         FileWriter fw = new FileWriter(usersFile, true);
-        Properties properties = new Properties();
+
         for (Map.Entry<String, String> entry: mapToWrite.entrySet()){
-//            properties.put(entry.getKey(), entry.getValue());
-            fw.write(entry.getKey() + entry.getValue() + "\n");
+            fw.write(entry.getKey() + ":" + entry.getValue() + "\n");
         }
         fw.close();
-//        properties.store(new FileOutputStream(usersFileName), null);
     }
     public static void write(String string) throws IOException {
         File usersFile = new File(usersFileName);

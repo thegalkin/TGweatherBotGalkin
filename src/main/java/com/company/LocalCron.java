@@ -13,8 +13,8 @@ import java.util.Map;
 //UserID:Time of subscription
 
 
-public class localCron {
-    public static String fileName = "localCron.txt";
+public class LocalCron {
+    public static String fileName = "LocalCron.txt";
     public static HashMap<String, String> read() throws IOException {
         List<String> cronLines = Files.readAllLines(Path.of(fileName));
         HashMap<String, String> cronHash = new HashMap<>();
@@ -33,9 +33,10 @@ public class localCron {
 
     public static String subscribe(String userId) throws IOException {
         File cronFile = new File(fileName);
+        HashMap<String, String> cronFileHash = read();
         cronFile.delete();
 
-        HashMap<String, String> cronFileHash = read();
+
 
         Date date = new Date();
         Files.createFile(Path.of(fileName));
@@ -51,7 +52,7 @@ public class localCron {
         }
 
         for(Map.Entry<String, String> entry : cronFileHash.entrySet()){
-            fw.write(entry.getKey() + ":" + entry.getValue());
+            fw.write(entry.getKey() + ":" + entry.getValue() +"\n");
         }
         fw.close();
         return "Success";
@@ -59,9 +60,10 @@ public class localCron {
     }
     public static String unsubscribe(String userId) throws IOException {
         File cronFile = new File(fileName);
+        HashMap<String, String> cronFileHash = read();
         cronFile.delete();
 
-        HashMap<String, String> cronFileHash = read();
+
 
 
         Files.createFile(Path.of(fileName));
@@ -77,7 +79,7 @@ public class localCron {
         }
 
         for(Map.Entry<String, String> entry : cronFileHash.entrySet()){
-            fw.write(entry.getKey() + ":" + entry.getValue());
+            fw.write(entry.getKey() + ":" + entry.getValue() +"\n");
         }
         fw.close();
         return "Success";

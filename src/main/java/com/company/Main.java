@@ -14,6 +14,7 @@ public class Main {
     public static void main(String[] args) throws IOException, TelegramApiException {
 
         apiBase();
+        System.out.println("Main");
     }
     //secret
     public static String weatherToken(){
