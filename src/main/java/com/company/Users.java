@@ -55,7 +55,7 @@ public class Users {
         rewrite(tempUserFile);
 
     }
-    private static HashMap<String, String> read() throws IOException {
+    public static HashMap<String, String> read() throws IOException {
         HashMap<String, String> usersHash = new HashMap<>();
         List<String> usersList = Files.readAllLines(Path.of(usersFileName));
         if (usersList.stream().count() != 0) {

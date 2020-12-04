@@ -22,9 +22,9 @@ public class LocalCron {
 
             for (String line : cronLines) {
                 String localUserId = line.substring(0, line.indexOf(":")); //may be bugs here
-                String localUserLocation = line.substring(line.indexOf(":") + 2);
-                System.out.printf("UserId: %s\nLocation: %s\nWere generated", localUserId, localUserLocation);
-                cronHash.put(localUserId, localUserLocation);
+                String localUserTime = line.substring(line.indexOf(":") + 1);
+                System.out.printf("UserId: %s\nTime: %s\nWere generated", localUserId, localUserTime);
+                cronHash.put(localUserId, localUserTime);
             }
 
         }
@@ -84,4 +84,5 @@ public class LocalCron {
         fw.close();
         return "Success";
     }
+
 }

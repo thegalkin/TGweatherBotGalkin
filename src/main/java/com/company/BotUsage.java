@@ -1,5 +1,6 @@
 package com.company;
 
+import com.fasterxml.jackson.jaxrs.json.JsonEndpointConfig;
 import org.telegram.telegrambots.bots.TelegramLongPollingBot;
 import org.telegram.telegrambots.meta.api.methods.send.SendMessage;
 import org.telegram.telegrambots.meta.api.objects.Location;
@@ -8,6 +9,8 @@ import org.telegram.telegrambots.meta.api.objects.Update;
 import org.telegram.telegrambots.meta.exceptions.TelegramApiException;
 
 import java.io.IOException;
+import java.util.Date;
+import java.util.HashMap;
 
 public class BotUsage extends TelegramLongPollingBot {
     //Func where all command handling happens
@@ -33,7 +36,7 @@ public class BotUsage extends TelegramLongPollingBot {
                             } else {
                                 //if user is new to us
                                 Users.write(userID + ":" + "null" + "\n");
-                                sendMessageHandler(message, "Hello, please send the location!");
+                                sendMessageHandler(message, "Hello, please send me the location!");
                             }
                         } catch (IOException e) {
                             e.printStackTrace();
@@ -45,6 +48,7 @@ public class BotUsage extends TelegramLongPollingBot {
 
                             if (Users.isInstance(userID) != null && Users.isInstance(userID) != "null") {
                                 LocalCron.subscribe(userID);
+                                sendMessageHandler(message, "You've been successfully subscribed!");
                             }
 
                         } catch (IOException e) {
@@ -57,6 +61,7 @@ public class BotUsage extends TelegramLongPollingBot {
 
                             if (Users.isInstance(userID) != null && Users.isInstance(userID) != "null") {
                                 LocalCron.unsubscribe(userID);
+                                sendMessageHandler(message, "You've been successfully unsubscribed!");
                             }
 
                         } catch (IOException e) {
@@ -88,8 +93,9 @@ public class BotUsage extends TelegramLongPollingBot {
                 } catch (IOException e) {
                     e.printStackTrace();
                 }
-
-                sendMessageHandler(message, forecast);
+                if (forecast != null) {
+                    sendMessageHandler(message, forecast);
+                }
                 try {
                     Users.writeLocation(userID, latitude, longitude);
                 } catch (IOException e) {
@@ -112,6 +118,27 @@ public class BotUsage extends TelegramLongPollingBot {
         try {
             execute(sendMessageRequest);
         } catch (TelegramApiException ignored) {}
+    }
+    //when called - sends a message with actual forecast
+    public void subscriptionTime(String userID) throws IOException {
+
+        HashMap<String, String> usersHash = Users.read();
+
+        String coordinatesGlued = usersHash.get(userID);
+        String latitude = coordinatesGlued.substring(0,coordinatesGlued.indexOf(","));
+        String longitude = coordinatesGlued.substring(coordinatesGlued.indexOf(",")+1);
+
+        String forecast = getWeather.getForecast(longitude,latitude,Main.weatherToken());
+
+
+        //I had to not use the func because I don't have a message to rely on here
+        SendMessage sendMessageRequest = new SendMessage();
+        sendMessageRequest.setChatId(userID);
+        sendMessageRequest.setText("Forecast, you've subscribed for:\n"+forecast);
+        try {
+            execute(sendMessageRequest);
+        } catch (TelegramApiException ignored) {}
+
     }
 
     @Override
