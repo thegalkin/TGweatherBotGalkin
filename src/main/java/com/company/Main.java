@@ -7,20 +7,25 @@ import org.telegram.telegrambots.updatesreceivers.DefaultBotSession;
 
 import javax.xml.crypto.Data;
 import java.io.IOException;
+import java.sql.Time;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.concurrent.TimeUnit;
 
 
 public class Main {
     //secret
 
-    public static void main(String[] args) throws IOException, TelegramApiException {
+    public static void main(String[] args) throws IOException, TelegramApiException, InterruptedException {
 
         apiBase();
         System.out.println("Main");
+        while (true){
+            clock();
+            TimeUnit.SECONDS.sleep(59);
+        }
 
-        clock();
     }
     //secret
     public static String weatherToken(){
@@ -34,7 +39,9 @@ public class Main {
         HashMap<String, String> cronHash = LocalCron.read();
         for(Map.Entry<String, String> entry : cronHash.entrySet()){
             System.out.println("User: " + entry.getKey() +"\nTime: " + entry.getValue() + "\n" + "Current time: " + date.getTime());
-            if(60000 > (date.getTime() - Long.parseLong(entry.getValue())) && 0 < (date.getTime() - Long.parseLong(entry.getValue()))){
+                int timePeriod = 60000;
+//            if(60000 > (date.getTime() - Long.parseLong(entry.getValue())) && 0 < (date.getTime() - Long.parseLong(entry.getValue()))){
+              if(timePeriod > ((date.getTime() - Long.parseLong(entry.getValue()))%timePeriod) && 0 < ((date.getTime() % Long.parseLong(entry.getValue()))%timePeriod)){
                 System.out.println("starting the time");
                 BotUsage botUsage = new BotUsage();
                 botUsage.subscriptionTime(entry.getKey());
