@@ -19,22 +19,52 @@ public class BotUsage extends TelegramLongPollingBot {
 
             if (message.hasText()){
 
+                String userID = message.getChatId().toString();
+                String messageText = message.getText();
+                System.out.println("Command: " + messageText);
+                    if (messageText == "/start") {
+                        try {
+                            if (Users.isInstance(userID) != null) {
+                                //if user is already in our userBase
+                                sendMessageHandler(message, "You've been already registered!");
 
-//                if (message.getText() == "/start"){
-//                    if (message.getChatId() instanceof )
-//
-//
-//                }
-
-                    SendMessage sendMessageRequest = new SendMessage();
-                    sendMessageRequest.setChatId(message.getChatId().toString());
-                    sendMessageRequest.setText("you said: " + message.getText());
-                    System.out.println(message.getLocation());
+                            } else {
+                                //if user is new to us
+                                Users.write(userID + ":" + "null" + "\n");
+                                sendMessageHandler(message, "Hello, please send the location!");
+                            }
+                        } catch (IOException e) {
+                            e.printStackTrace();
+                        }
+                    }else if(messageText == "/subscribe") {
                     try {
-                        execute(sendMessageRequest);
-                    } catch (TelegramApiException e) {
 
+                        if (Users.isInstance(userID) != null && Users.isInstance(userID) != "null") {
+                            localCron.subscribe(userID);
+                        }
+
+                    } catch (IOException e) {
+                        e.printStackTrace();
                     }
+                } else  if(messageText == "/unsubscribe") {
+                        try {
+
+                            if (Users.isInstance(userID) != null && Users.isInstance(userID) != "null") {
+                                localCron.unsubscribe(userID);
+                            }
+
+                        } catch (IOException e) {
+                            e.printStackTrace();
+                        }
+                    } else {
+                        sendMessageHandler(message, "I don't understand you!");
+                    }
+
+
+
+
+
+
             }
 
             if(message.hasLocation()) {
@@ -42,6 +72,7 @@ public class BotUsage extends TelegramLongPollingBot {
                 Location location = message.getLocation();
                 String longitude = location.getLongitude().toString();
                 String latitude = location.getLatitude().toString();
+                String userID = message.getChatId().toString();
 
                 //getting forecast for this call
                 String forecast = null;
@@ -51,15 +82,14 @@ public class BotUsage extends TelegramLongPollingBot {
                     e.printStackTrace();
                 }
 
-                SendMessage sendMessageRequest = new SendMessage();
-                sendMessageRequest.setChatId(message.getChatId().toString());
-                sendMessageRequest.setText(forecast);
-                System.out.printf("https://yandex.ru/maps/?pt=%s,%s&z=10&l=map%n", latitude, longitude);
+                sendMessageHandler(message, forecast);
                 try {
-                    execute(sendMessageRequest);
-                } catch (TelegramApiException ignored) {
-
+                    Users.writeLocation(userID, latitude, longitude);
+                } catch (IOException e) {
+                    e.printStackTrace();
                 }
+                System.out.printf("https://yandex.ru/maps/?pt=%s,%s&z=10&l=map%n", latitude, longitude);
+
 
 
             }
@@ -67,7 +97,15 @@ public class BotUsage extends TelegramLongPollingBot {
         }
 
     }
-
+    //message sender
+    public void sendMessageHandler(Message messageLocal, String messageText){
+        SendMessage sendMessageRequest = new SendMessage();
+        sendMessageRequest.setChatId(messageLocal.getChatId().toString());
+        sendMessageRequest.setText(messageText);
+        try {
+            execute(sendMessageRequest);
+        } catch (TelegramApiException ignored) {}
+    }
 
     @Override
     public String getBotUsername() {

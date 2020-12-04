@@ -15,6 +15,7 @@ public class Main {
 
         apiBase();
     }
+    //secret
     public static String weatherToken(){
         return "5ceac6d2df7a14bffac5f541c8b422a6&units";
     }
