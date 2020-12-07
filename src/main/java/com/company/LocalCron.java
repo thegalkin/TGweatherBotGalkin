@@ -23,7 +23,7 @@ public class LocalCron {
             for (String line : cronLines) {
                 String localUserId = line.substring(0, line.indexOf(":")); //may be bugs here
                 String localUserTime = line.substring(line.indexOf(":") + 1);
-                System.out.printf("UserId: %s\nTime: %s\nWere generated", localUserId, localUserTime);
+//                System.out.printf("UserId: %s\nTime: %s\nWere generated", localUserId, localUserTime);
                 cronHash.put(localUserId, localUserTime);
             }
 
