@@ -10,7 +10,7 @@
       </profile>
     </annotationProcessing>
     <bytecodeTargetLevel>
-      <module name="TGweatherBotGalkin" target="3.1" />
+      <module name="TGweatherBotGalkin" target="1.5" />
     </bytecodeTargetLevel>
   </component>
 </project>
