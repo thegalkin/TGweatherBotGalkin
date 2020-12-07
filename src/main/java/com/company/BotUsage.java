@@ -99,7 +99,7 @@ public class BotUsage extends TelegramLongPollingBot {
                 } catch (IOException e) {
                     e.printStackTrace();
                 }
-                System.out.printf("https://yandex.ru/maps/?pt=%s,%s&z=10&l=map%n", latitude, longitude);
+                System.out.printf("https://yandex.ru/maps/?pt=%s,%s&z=10&l=map%n", longitude, latitude);
 
 
 
