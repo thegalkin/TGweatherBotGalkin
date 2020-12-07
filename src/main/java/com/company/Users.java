@@ -1,18 +1,14 @@
 package com.company;
 
-import com.fasterxml.jackson.databind.node.BooleanNode;
-
 import java.io.*;
 import java.nio.file.Path;
 import java.util.HashMap;
 import java.util.List;
 import java.nio.file.Files;
 import java.util.Map;
-import java.util.Properties;
 
 public class Users {
     static String usersFileName = "users.txt";
-//    private static File usersFile = new File(usersFileName);
 
 
 
@@ -31,18 +27,6 @@ public class Users {
             }
     }
 
-//    private static String hasLocation(String userId) throws IOException{
-//        List<String> usersList = read();
-//        if (usersList.stream().count() != 0) {
-//            HashMap<String, String> usersHash = new HashMap<>();
-//            for (String line : usersList) {
-//                String localUserId = line.substring(0, line.indexOf(":")); //may be bugs here
-//                String localUserLocation = line.substring(line.indexOf(":") + 2);
-//                System.out.printf("UserId: %s\nLocation: %s\nWere generated", localUserId, localUserLocation);
-//                usersHash.put(localUserId, localUserLocation);
-//            }
-//        }
-//    }
 
 
     //кейсы 1. человек отправляет старт, ему ставится нулевая локация, он отправляет локацию,мы обновляем строку с айди и локацией на новую, обновляем таблицу
@@ -63,8 +47,7 @@ public class Users {
             for (String line : usersList) {
                 String localUserId = line.substring(0, line.indexOf(":")); //may be bugs here
                 String localUserLocation = line.substring(line.indexOf(":") + 1);
-                System.out.println(line);//TODO debug
-                System.out.printf("UserId: %s\nLocation: %s\nWere generated\n", localUserId, localUserLocation);
+//                System.out.printf("UserId: %s\nLocation: %s\nWere generated\n", localUserId, localUserLocation);
                 usersHash.put(localUserId, localUserLocation);
             }
 

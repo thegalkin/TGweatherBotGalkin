@@ -5,9 +5,7 @@ import org.telegram.telegrambots.meta.exceptions.TelegramApiException;
 import org.telegram.telegrambots.updatesreceivers.DefaultBotSession;
 
 
-import javax.xml.crypto.Data;
 import java.io.IOException;
-import java.sql.Time;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
@@ -18,9 +16,7 @@ public class Main {
     //secret
 
     public static void main(String[] args) throws IOException, TelegramApiException, InterruptedException {
-
         apiBase();
-        System.out.println("Main");
         while (true){
             clock();
             TimeUnit.SECONDS.sleep(59);
